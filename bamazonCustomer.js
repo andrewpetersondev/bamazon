@@ -19,9 +19,9 @@ connection.connect(function (err) {
     showInventory();
 });
 
-// function showInventory() {
+function showInventory() {
 
-// }
+}
 
 // function start() {
 //     inquirer.prompt({})
