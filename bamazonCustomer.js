@@ -22,15 +22,10 @@ connection.connect(function (err) {
 });
 
 function start() {
-
     var query = "SELECT * FROM bamazon.products";
-
     connection.query(query, function (error, inventory) {
-
         if (error) throw error;
-
         console.table(inventory);
-
         inquirer.prompt([
             {
                 name: "item",
@@ -43,35 +38,48 @@ function start() {
                 message: "How many units of the item would you like to order?"
             }
         ]).then(function (userInput) {
-           
-            var item = userInput.item;
-            var units = userInput.units;
-            
+            // var item = parseInt(userInput.item);
+            // var units = parseInt(userInput.units);
             console.log(userInput);
-            console.log(item, units);
-
-            checkInventory(inventory, userInput);
+            // checkInventory(inventory, userInput);
+            checkInventory(userInput);
         })
     });
 }
 
-function checkInventory(inventory, userInput) {
-    var query = "SELECT * FROM bamazon.products WHERE item_id = ?";
-    connection.query(query, [userInput.item], function (error, inventory) {
+function checkInventory(userInput) {
+    console.log("checkInventory() called");
+
+    var query = "SELECT * FROM `products` WHERE `item_id` = ?";
+
+    connection.query(query, [userInput.item], function (error, response) {
+
         if (error) throw error;
-        console.log("checkInventory() called");
-        console.log(inventory);
-        var quantityInStock = inventory.stock_quantity;
-        console.log(quantityInStock);
+
+        // for (var i = 0; i < response.length; i++) {
+        //     console.log(response[i].stock_quantity);
+        // }
+
+        // console.log(response[0].stock_quantity);
+
+        if (response[0].stock_quantity > userInput.units) {
+            console.log("we have enough in stock");
+            purchase();
+
+
+        } else {
+            console.log("we don't have enough inventory to complete your order");
+        }
+
     })
     // parseInt and make sure it is a number
     // if else make comparison to check quantity
     // makepurchase(product, quantity) in else statement 
-    connection.end();
+
 }
 
-// function makePurchase() {
-//     // update database
-//     // var query = /////
-
-// }
+function purchase() {
+    // update database
+    // var query = /////
+    connection.end();
+}
