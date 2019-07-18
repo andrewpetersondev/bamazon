@@ -15,12 +15,19 @@ var connection = mysql.createConnection({
 // connect to mysql server and database
 connection.connect(function (err) {
     if (err) throw err;
-    // run a function when the connection is made that shows all of the inventory
+    console.log("Connected as ID: " + connection.threadId + "\n");
+    // run a function that shows all of the inventory
     showInventory();
 });
 
 function showInventory() {
+    var query = "SELECT * FROM bamazon.products";
+    connection.query(query, function (error, results) {
 
+        console.table(results);
+
+    });
+    connection.end();
 }
 
 // function start() {
