@@ -40,7 +40,7 @@ function start() {
         ]).then(function (userInput) {
             // var item = parseInt(userInput.item);
             // var units = parseInt(userInput.units);
-            console.log(userInput);
+            // console.log(userInput);
             // checkInventory(inventory, userInput);
             checkInventory(userInput);
         })
@@ -48,23 +48,23 @@ function start() {
 }
 
 function checkInventory(userInput) {
-    console.log("checkInventory() called");
+    // console.log("checkInventory() called");
 
     var query = "SELECT * FROM `products` WHERE `item_id` = ?";
 
-    connection.query(query, [userInput.item], function (error, response) {
+    connection.query(query, [userInput.item], function (error, itemInventory) {
 
         if (error) throw error;
 
-        // for (var i = 0; i < response.length; i++) {
-        //     console.log(response[i].stock_quantity);
+        // for (var i = 0; i < itemInventory.length; i++) {
+        //     console.log(itemInventory[i].stock_quantity);
         // }
 
-        // console.log(response[0].stock_quantity);
+        // console.log(itemInventory[0].stock_quantity);
 
-        if (response[0].stock_quantity > userInput.units) {
+        if (itemInventory[0].stock_quantity > userInput.units) {
             console.log("we have enough in stock");
-            purchase();
+            purchase(userInput, itemInventory);
 
 
         } else {
@@ -78,7 +78,23 @@ function checkInventory(userInput) {
 
 }
 
-function purchase() {
+function purchase(userInput, itemInventory) {
+
+    var query = "UPDATE products SET ? WHERE ?";
+    connection.query(query,
+        [
+            {
+                stock_quantity: itemInventory[0].stock_quantity - userInput.units
+            },
+            {
+                item_id: userInput.item
+            }
+        ], function (error, results) {
+            if (error) throw error;
+            console.log(results);
+            console.log("hi");
+        }
+    )
     // update database
     // var query = /////
     connection.end();
