@@ -29,7 +29,7 @@ var chosenItem = {};
 // functions
 // ==========================================================================================================================
 function start() {
-    var query = "SELECT * FROM bamazon.products";
+    var query = "SELECT * FROM products";
     connection.query(query, function (error, inventory) {
         if (error) throw error;
         console.table(inventory);
@@ -79,6 +79,7 @@ function checkInventory(userInput) {
             purchase(userInput, itemInventory);
         } else {
             console.log("we don't have enough inventory to complete your order");
+            connection.end();
         }
     })
     // parseInt and make sure it is a number
@@ -110,8 +111,7 @@ function purchase(userInput, itemInventory) {
 }
 
 function calculateTotal(userInput) {
-    // console.log(chosenItem.price * userInput.units);
-    return chosenItem.price * userInput.units;
-
+    console.log(chosenItem.price * userInput.units);
+    // return chosenItem.price * userInput.units;
     connection.end();
 }
