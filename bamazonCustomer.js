@@ -17,19 +17,52 @@ connection.connect(function (err) {
     if (err) throw err;
     console.log("Connected as ID: " + connection.threadId + "\n");
     // run a function that shows all of the inventory
-    showInventory();
+    // showInventory();
+    start();
 });
 
-function showInventory() {
+function start() {
+
     var query = "SELECT * FROM bamazon.products";
+
     connection.query(query, function (error, results) {
+
+        if (error) throw error;
 
         console.table(results);
 
+        inquirer.prompt([
+            {
+                name: "item",
+                type: "number",
+                message: "What is the item_id of the item you would like to buy?"
+            },
+            {
+                name: "units",
+                type: "number",
+                message: "How many units of the item would you like to purchase?"
+            }
+        ]).then(function (answer) {
+            // console.log(answer);
+            var item = answer.item;
+            var units = answer.units;
+            // console.log(item, units);
+            checkOrder(units);
+            // 
+        })
+        connection.end();
+
     });
-    connection.end();
 }
 
-// function start() {
-//     inquirer.prompt({})
-// }
+function checkOrder(results, answer) {
+    // parseInt and make sure it is a number
+    // if else make comparison to check quantity
+    // makepurchase(product, quantity) in else statement 
+}
+
+function makePurchase() {
+    // update database
+    // var query = /////
+
+}
