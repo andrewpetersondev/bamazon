@@ -41,8 +41,9 @@ function showMenu() {
             ]
         }
     ]).then(function (answer) {
-        // console.log(answer);
-        switch (answer.action) {
+        console.log(answer);
+        console.log(answer.action);
+        switch (answer) {
             case "View Products for Sale":
                 viewInventory();
                 break;
@@ -60,7 +61,16 @@ function showMenu() {
     })
 }
 
-// function viewInventory() { }
+function viewInventory() { 
+    var query = "SELECT * FROM products WHERE stock_quantity > 0";
+    connection.query(query, function (error, results) {
+        if (error) throw error;
+        console.log("hi");
+        console.table(results);
+        // connection.end();
+    })
+    connection.end();
+}
 
 // function lowInventory() { }
 
