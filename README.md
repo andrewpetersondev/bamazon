@@ -1,6 +1,20 @@
 # bamazon
 
-## Step By Step Instructions
+## Technologies
+
+1. Javascript
+2. MySQL
+3. Inquirer
+
+## Overview
+
+The purpose of this application was to create a command line interface for a fictional store.
+
+Customers can see a stores inventory, input the item_id of the product they would like to purchase and the application will respond to the customer with the availability of the item. If the item is in stock then will be able to "make a purchase".
+
+Managers can see the stores inventory in a more detail. Items with a stock_quantity less than 5 should be classified as low inventory.
+
+## Step By Step Instructions for Customers
 
 1. Open terminal and navigate to bamazon folder
 

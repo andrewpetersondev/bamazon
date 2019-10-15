@@ -1,36 +1,16 @@
-// configuration
-// ==========================================================================================================================
-
-// import packages
-const mysql = require("mysql");
+const common = require("./common");
 const inquirer = require("inquirer");
-// const cTable = require("console.table");
 
-// create connection with mysql database
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "bamazon",
-  password: "somepassword123456",
-  database: "bamazon"
-});
+const connection = common.createConnection();
 
-// connect to mysql server and database
-connection.connect(function(error) {
-  if (error) throw error;
-  console.log("\nConnected as ID: " + connection.threadId + "\n");
-  start();
-});
-
-// global variables
-// ==========================================================================================================================
 var chosenItem = {};
 
-// functions
-// ==========================================================================================================================
-function start() {
-  var query = "SELECT * FROM products";
-  connection.query(query, function(error, inventory) {
+startCustomerView();
+
+function startCustomerView() {
+  common.openConnection(connection);
+  let querySQL = "SELECT item_id, product_name, stock_quantity, price FROM products where stock_quantity > 0";
+  connection.query(querySQL, function(error, inventory) {
     if (error) throw error;
     console.table(inventory);
     inquirer
